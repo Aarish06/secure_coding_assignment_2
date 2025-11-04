@@ -1,0 +1,27 @@
+name: Bandit SAST
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  bandit-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Run bandit action
+        uses: PyCQA/bandit-action@v1
+        with:
+          # path defaults to ".". Set path if your Python code is elsewhere.
+          path: "."
+          # optional: severity threshold (low|medium|high)
+          severity: medium
